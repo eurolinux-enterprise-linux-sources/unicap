@@ -7,13 +7,13 @@
 Summary:	Library to access different kinds of (video) capture devices
 Name:		unicap
 Version:	0.9.5
-Release:	4%{?dist}
+Release:	7%{?dist}
 License:	GPLv2+
 Group:		System Environment/Libraries
 URL:		http://www.unicap-imaging.org/
 Source0:	http://www.unicap-imaging.org/downloads/%{name}-%{version}.tar.gz
 Source1:	unicap-filter.sh
-BuildRequires:	intltool, /usr/bin/perl, perl(XML::Parser), gettext, gtk-doc >= 1.4
+BuildRequires:	intltool, /usr/bin/perl, perl(XML::Parser), gettext
 BuildRequires:	glib2-devel, gtk2-devel, pango-devel, libtheora-devel, libXv-devel
 BuildRequires:	libpng-devel, libX11-devel, libICE-devel
 %ifnarch s390 s390x
@@ -23,10 +23,16 @@ BuildRequires:	libogg-devel, libvorbis-devel, libXext-devel, alsa-lib-devel
 BuildRequires:	libv4l-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+# bz #635644
+Patch1: unicap-0.9.5-bz635644.patch
+
+# bz #635645
+Patch2: unicap-0.9.5-bz635645.patch
+
 # bz #581187
-Provides:	libucil		= %{name}-%{version}
-Provides:	libunicap	= %{name}-%{version}
-Provides:	libunicapgtk	= %{name}-%{version}
+Provides:	libucil		= %{version}-%{release}
+Provides:	libunicap	= %{version}-%{release}
+Provides:	libunicapgtk	= %{version}-%{release}
 
 %description
 Unicap provides a uniform interface to video capture devices. It allows
@@ -40,9 +46,9 @@ Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}, pkgconfig
 
 # bz #581187
-Provides:	libucil-devel		= %{name}-%{version}
-Provides:	libunicap-devel		= %{name}-%{version}
-Provides:	libunicapgtk-devel	= %{name}-%{version}
+Provides:	libucil-devel		= %{version}-%{release}
+Provides:	libunicap-devel		= %{version}-%{release}
+Provides:	libunicapgtk-devel	= %{version}-%{release}
 
 %description devel
 The unicap-devel package includes header files and libraries necessary for
@@ -51,9 +57,12 @@ contains the API documentation of the library, too.
 
 %prep
 %setup -q
+%patch1 -p1
+%patch2 -p1
 
 %build
-%configure --disable-rpath --enable-gtk-doc --enable-libv4l
+%configure --disable-rpath --disable-gtk-doc --enable-libv4l
+make %{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -86,6 +95,18 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gtk-doc/html/*
 
 %changelog
+* Fri Aug 05 2011 Kamil Dudka <kdudka@redhat.com> - 0.9.5-7
+- do not mistakenly drop the dependency on libv4l2.so.0 (#728473)
+
+* Fri Aug 05 2011 Kamil Dudka <kdudka@redhat.com> - 0.9.5-6
+- do not use gtk-doc, use the documentation provided by upstream (#658059)
+
+* Tue Jun 28 2011 Kamil Dudka <kdudka@redhat.com> - 0.9.5-5
+- fix provides for libunicap, libunicapgtk and libucil (#612693)
+- fix SIGSEGV in ucil_alsa_fill_audio_buffer (#635644)
+- check return value of theora_encode_init() (#635645)
+- avoid a multilib conflict on unicap-devel (#658059)
+
 * Mon Apr 12 2010 Kamil Dudka <kdudka@redhat.com> - 0.9.5-4
 - declare provides for libunicap, libunicapgtk and libucil (#581187)
 

@@ -1,0 +1,29 @@
+From 092cda9c5faefd5fe49cfad9dd9157efc0df8a5b Mon Sep 17 00:00:00 2001
+From: Kamil Dudka <kdudka@redhat.com>
+Date: Tue, 28 Jun 2011 14:03:34 +0200
+Subject: [PATCH 2/2] unicap - rhbz #635645
+
+---
+ libucil/ucil_theora.c |    6 +++++-
+ 1 files changed, 5 insertions(+), 1 deletions(-)
+
+diff --git a/libucil/ucil_theora.c b/libucil/ucil_theora.c
+index fc33621..3f02adb 100644
+--- a/libucil/ucil_theora.c
++++ b/libucil/ucil_theora.c
+@@ -1545,7 +1545,11 @@ ucil_theora_video_file_object_t *ucil_theora_create_video_filev( const char *pat
+    
+ #endif
+ 
+-   theora_encode_init( &vobj->th, &vobj->ti );   
++   if( theora_encode_init( &vobj->th, &vobj->ti ) != 0 )
++   {
++      free( vobj );
++      return NULL;
++   }
+ 
+    vobj->full_queue = malloc( sizeof( struct _unicap_queue ) );
+    _init_queue( vobj->full_queue );
+-- 
+1.7.4.4
+

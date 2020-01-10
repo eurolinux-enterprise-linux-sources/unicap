@@ -1,0 +1,42 @@
+From 5a775df98da4a4c83fc7ecb8403d7aa6a080318e Mon Sep 17 00:00:00 2001
+From: Kamil Dudka <kdudka@redhat.com>
+Date: Tue, 28 Jun 2011 13:58:58 +0200
+Subject: [PATCH 1/2] unicap - rhbz #635644
+
+---
+ libucil/ucil_theora.c |   12 ++++++++++++
+ 1 files changed, 12 insertions(+), 0 deletions(-)
+
+diff --git a/libucil/ucil_theora.c b/libucil/ucil_theora.c
+index 7caa01f..fc33621 100644
+--- a/libucil/ucil_theora.c
++++ b/libucil/ucil_theora.c
+@@ -1513,6 +1513,12 @@ ucil_theora_video_file_object_t *ucil_theora_create_video_filev( const char *pat
+ 	 return NULL;
+       }
+       vobj->audio_data = ucil_alsa_init( vobj->audio_card, vobj->audio_rate );
++      if( !vobj->audio_data )
++      {
++	 /* the error message has already been emitted */
++	 free( vobj );
++	 return NULL;
++      }
+       
+       vorbis_info_init( &vobj->vi );
+       if( vorbis_encode_init( &vobj->vi, 2, vobj->audio_rate, -1, vobj->vorbis_bitrate, -1 ) )
+@@ -1529,6 +1535,12 @@ ucil_theora_video_file_object_t *ucil_theora_create_video_filev( const char *pat
+    else if( vobj->audio )
+    {
+       vobj->audio_data = ucil_alsa_init( vobj->audio_card, vobj->audio_rate );
++      if( !vobj->audio_data )
++      {
++	 /* the error message has already been emitted */
++	 free( vobj );
++	 return NULL;
++      }
+    }
+    
+ #endif
+-- 
+1.7.4.4
+
