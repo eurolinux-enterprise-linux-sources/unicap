@@ -1,0 +1,145 @@
+<api-page>
+<!--
+struct _unicap_property
+{
+	char identifier[128]; //mandatory
+	char category[128];
+	char unit[128]; // 
+
+	// list of properties identifier which value / behaviour may change if this property changes
+	char **relations;
+	int relations_count;	
+		
+	union
+	{
+		double value; // default if enumerated
+		char menu_item[128];
+	};
+		
+	union{	
+			unicap_property_range_t range; // if UNICAP_USE_RANGE is asserted
+			unicap_property_value_list_t value_list; // if UNICAP_USE_VALUE_LIST is asserted
+			unicap_property_menu_t menu;
+	};
+
+	double stepping;
+
+	unicap_property_type_enum_t type;	
+	u_int64_t flags;        // defaults if enumerated
+	u_int64_t flags_mask;	// defines capabilities if enumerated
+
+	// optional data
+	void *property_data; 
+	size_t property_data_size;	
+};
+-->
+  <type>
+    <type-name>unicap_property_t</type-name>
+    <type-field>
+      <field-name>identifier</field-name>
+      <field-type>char</field-type>
+      <field-array-size>128</field-array-size>
+      <field-description></field-description>
+    </type-field>
+    <type-field>
+      <field-name>category</field-name>
+      <field-type>char</field-type>
+      <field-array-size>128</field-array-size>
+      <field-description></field-description>
+    </type-field>
+    <type-field>
+      <field-name>unit</field-name>
+      <field-type>char</field-type>
+      <field-array-size>128</field-array-size>
+      <field-description></field-description>
+    </type-field>
+
+    <type-field>
+      <field-name>relations</field-name>
+      <field-type>char **</field-type>
+      <field-array-size></field-array-size>
+      <field-description></field-description>
+    </type-field>
+    <type-field>
+      <field-name>relations_count</field-name>
+      <field-type>int</field-type>
+      <field-array-size></field-array-size>
+      <field-description></field-description>
+    </type-field>
+
+    <union>
+      <type-field>
+	<field-name>value</field-name>
+	<field-type>double</field-type>
+	<field-array-size></field-array-size>
+	<field-description></field-description>
+      </type-field>
+      <type-field>
+	<field-name>menu_item</field-name>
+	<field-type>char</field-type>
+	<field-array-size>128</field-array-size>
+	<field-description></field-description>
+      </type-field>
+    </union>
+
+    <union>
+      <type-field>
+	<field-name>range</field-name>
+	<field-type>unicap_range_t</field-type>
+	<field-array-size></field-array-size>
+	<field-description></field-description>
+      </type-field>
+      <type-field>
+	<field-name>value_list</field-name>
+	<field-type>unicap_value_list_t</field-type>
+	<field-array-size></field-array-size>
+	<field-description></field-description>
+      </type-field>
+      <type-field>
+	<field-name>menu</field-name>
+	<field-type>unicap_menu_t</field-type>
+	<field-array-size></field-array-size>
+	<field-description></field-description>
+      </type-field>
+    </union>
+    <type-field>
+      <field-name>stepping</field-name>
+      <field-type>double</field-type>
+      <field-array-size></field-array-size>
+      <field-description></field-description>
+    </type-field>
+    <type-field>
+      <field-name>type</field-name>
+      <field-type>unicap_property_type_enum_t</field-type>
+      <field-array-size></field-array-size>
+      <field-description></field-description>
+    </type-field>
+    <type-field>
+      <field-name>flags</field-name>
+      <field-type>u_int64_t</field-type>
+      <field-array-size></field-array-size>
+      <field-description></field-description>
+    </type-field>
+    <type-field>
+      <field-name>flags_mask</field-name>
+      <field-type>u_int64_t</field-type>
+      <field-array-size></field-array-size>
+      <field-description></field-description>
+    </type-field>
+    <type-field>
+      <field-name>property_data</field-name>
+      <field-type>void *</field-type>
+      <field-array-size></field-array-size>
+      <field-description></field-description>
+    </type-field>
+    <type-field>
+      <field-name>property_data_size</field-name>
+      <field-type>size_t</field-type>
+      <field-array-size></field-array-size>
+      <field-description></field-description>
+    </type-field>
+  </type>
+  
+  <type-description>
+  </type-description>
+</api-page>
